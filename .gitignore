@@ -1,0 +1,6 @@
+deploy.sh
+/env/
+
+*.egg-info/
+dist/
+build/
