@@ -4,14 +4,14 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="example-pkg-your-username",
+    name="ppyNotion",
     version="0.0.1",
-    author="Example Author",
-    author_email="author@example.com",
-    description="A small example package",
+    author="jirayuwat b.",
+    author_email="jirayuwat.work@gmail.com",
+    description="Connect to your Notion database with ease.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/pypa/sampleproject",
+    url="https://github.com/jirayuwat12/ppyNotion",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
