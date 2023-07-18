@@ -1,9 +1,8 @@
-import requests
-
 class Client:
     
     __token = ""
     __header = ""
+    __is_set_token = False 
 
     def __init__(self, token : str = "") -> None:
         '''
@@ -34,7 +33,17 @@ class Client:
             return True
         else:
             return False
-        
+
+    def __str__(self):
+        return f'''client token = {self.get_token()}'''
+
+    def is_set_token(self) -> bool :
+        '''
+        return `True` if token is setted.
+        else return `False`
+        '''
+        return self.__is_set_token
+    
     def get_token(self) -> str:
         '''
         get token from class feild
@@ -66,6 +75,7 @@ class Client:
         self.__token = token
         if set_header:
             self.set_header()
+        self.__is_set_token = True 
 
     def set_header(self,
                     Authorization_prefix : str = "Bearer",
