@@ -1,9 +1,10 @@
 import requests
 import json
-from utils import ISO8601_to_datetime
+from utils.date_formatter import ISO8601_to_datetime
 from datetime import datetime
 
 from Client import Client
+from User import User
 
 class Database:
 
@@ -33,24 +34,50 @@ class Database:
         '''
         
         '''
+
+        # set client class
         self.set_client(client= client)
+
+        # set database id 
         self.set_database_id(databse_id= database_id)
 
         if not load_data : 
             return
         
+        # get data from api
         response = requests.get(self.API_URL + database_id, headers= client.get_header())
         if response.status_code != 200 :
             raise ConnectionError(f"status code = {response.status_code}\nerror = {response}")
         
+        # convert to object
         response_json = json.loads(response.text)
 
-        self.set_created_time(response_json['created_time'])
+        # set created time if exist
+        if 'created_time' in response_json:
+            self.set_created_time(response_json['created_time'])
+
+        # set created by if exist
+        if 'created_by' in response_json:
+            created_user = User(response_json['created_by'])
+            self.set_created_by(created_user)
+
+        # set last edited time if exist
+        if 'last_edited_time' in response_json:
+            self.set_last_edited_time(response_json['last_edited_time'])
+
+        # set last edited time if exist
+        if 'last_edited_by' in response_json:
+            last_edited_user = User(response_json['last_edited_by'])
+            self.set_last_edited_by(last_edited_user)
+
 
     def __str__(self):
         return f'database id = {self.get_database_id()} \
             \n{self.get_client()} \
             \ncreated time = {self.get_created_time()} \
+            \ncreated by = {self.get_created_by()} \
+            \nlast edited time = {self.get_last_edited_time()} \
+            \nlast edited by = {self.get_last_edited_by()} \
         '
             
     def set_database_id(self, databse_id : str) -> None :
@@ -78,7 +105,7 @@ class Database:
 
         self.__client = client
 
-    def set_created_time(self, created_time : str) -> None:
+    def set_created_time(self, created_time : str) -> None :
         '''
         set created time
             
@@ -86,6 +113,34 @@ class Database:
                 created_time (str) : string time in ISO 8601 date and time format
         '''
         self.__created_time = ISO8601_to_datetime(created_time)
+
+    def set_created_by(self, created_by : User) -> None :
+        '''
+        set user that created the database 
+
+            Parameters:
+                created_by (User) : user that created the database
+        '''
+        self.__created_by = created_by
+
+    def set_last_edited_time(self, last_edited_time : str) -> None :
+        '''
+        set last_edited time
+            
+            Parameters:
+                last_edited_time (str) : string time in ISO 8601 date and time format
+        '''
+        self.__last_edited_time = ISO8601_to_datetime(last_edited_time)
+
+    def set_last_edited_by(self, last_edited_by : User) -> None :
+        '''
+        set user that last edited the database 
+
+            Parameters:
+                last_edited_by (User) : user that last edited the database
+        '''
+        self.__last_edited_by = last_edited_by
+    
 
     def get_database_id(self) -> str :
         return self.__database_id
@@ -96,11 +151,20 @@ class Database:
     def get_created_time(self) -> datetime :
         return self.__created_time
 
+    def get_created_by(self) -> User : 
+        return self.__created_by
+
+    def get_last_edited_time(self) -> datetime :
+        return self.__last_edited_time
+    
+    def get_last_edited_by(self) -> User :
+        return self.__last_edited_by
+
 
 if __name__ == "__main__":
     
     obj = None
-    with open('../secret.txt','r') as f:
+    with open('./secret.txt','r') as f:
         obj = json.loads(f.read())
     token = obj['token']
     dbid = obj['dbid']
