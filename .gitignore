@@ -1,8 +1,14 @@
+# for bash script
 deploy.sh
+create_class_diagram.sh
+
+# for venv
 /env/
+
 
 *.egg-info/
 dist/
 build/
 
+# to save token
 secret.txt
