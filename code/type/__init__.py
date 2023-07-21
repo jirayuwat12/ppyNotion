@@ -24,3 +24,8 @@ class ColorType(Enum):
     purple_background = 17
     red_background = 18
     yellow_background = 19
+
+class BaseTextType(Enum):
+    text = 1
+    mention = 2
+    equation = 3
