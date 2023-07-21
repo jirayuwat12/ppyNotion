@@ -2,12 +2,12 @@ from tqdm import tqdm
 
 var = \
 '''
-__bold	bool
-__italic	bool
-__strikethrough	bool
-__underline	bool
-__code	bool
-__color	ColorType
+__user_id	str
+__type	UserType
+__name	str
+__avatar_url	str
+__person_email	str
+__bot	dict
 '''
 
 getter = ''
@@ -22,7 +22,7 @@ for i in tqdm(var.strip().split('\n')):
     \n        return the {name[2:]}({var_type}) in class\
     \n    """\
     \n    try : self.{name}\
-    \n    except : self.{name} = None\
+    \n    except : self.{name} = {var_type}()\
     \n    return self.{name}\
     \n\n'
 
