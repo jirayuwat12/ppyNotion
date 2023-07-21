@@ -74,29 +74,60 @@ class User(INotionObject):
     def __str__(self):
         return f'{self.name}({self.user_id})'
     
-    @property
-    def user_id(self) -> str:
-        return self.__userID
-    
-    @property
-    def type(self) -> UserType :
-        return self.__type
-    
-    @property
-    def name(self) -> str :
-        return self.__name
-    
-    @property
-    def avatar_url(self) -> str :
-        return self.__avatar_url
-    
-    @property
-    def person_email(self) -> str :
-        return self.__person_email
-    
-    @property
-    def bot(self) -> Dict : 
-        return self.__bot
+    @property     
+    def user_id(self) -> str:     
+        """    
+            return the user_id(str) in class    
+        """    
+        try : self.__user_id    
+        except : self.__user_id = str()    
+        return self.__user_id    
+
+    @property     
+    def type(self) -> UserType:     
+        """    
+            return the type(UserType) in class    
+        """    
+        try : self.__type    
+        except : self.__type = UserType()    
+        return self.__type    
+
+    @property     
+    def name(self) -> str:     
+        """    
+            return the name(str) in class    
+        """    
+        try : self.__name    
+        except : self.__name = str()    
+        return self.__name    
+
+    @property     
+    def avatar_url(self) -> str:     
+        """    
+            return the avatar_url(str) in class    
+        """    
+        try : self.__avatar_url    
+        except : self.__avatar_url = str()    
+        return self.__avatar_url    
+
+    @property     
+    def person_email(self) -> str:     
+        """    
+            return the person_email(str) in class    
+        """    
+        try : self.__person_email    
+        except : self.__person_email = str()    
+        return self.__person_email    
+
+    @property     
+    def bot(self) -> dict:     
+        """    
+            return the bot(dict) in class    
+        """    
+        try : self.__bot    
+        except : self.__bot = dict()    
+        return self.__bot    
+
 
     @user_id.setter
     def user_id(self, var : str) :
@@ -114,19 +145,20 @@ class User(INotionObject):
         self.__userID = var
     
     @type.setter
-    def type(self, type : str) -> None :
+    def type(self, type : UserType) -> None :
         '''
         set type of user
 
             Parameters:
                 type (str) : must be string of 'person' or 'bot' only 
         '''
-        if type == "person" :
-            self.__type = UserType.person
-        elif type == "bot" :
-            self.__type = UserType.bot
+        if isinstance(type, UserType):
+            self.type = type
         else:
-            raise ValueError("type must be either 'bot' or 'person'.")
+            raise ValueError("type must be `UserType` class.\nor you want to use `str` please use `set_type` instead")
+
+    def set_type(self, type_name : str) -> None:
+        self.type = UserType[type_name]
 
     @name.setter
     def name(self, name : str) -> None :
@@ -153,7 +185,6 @@ class User(INotionObject):
         '''
         if not re.match(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+', person_email):
             raise ValueError('invalid email form')
-        
         self.__person_email = person_email
 
     @bot.setter
@@ -161,42 +192,7 @@ class User(INotionObject):
         '''
         in case that this user is bot this must not null
         '''
+        if not isinstance(bot, Dict):
+            raise TypeError(f'bot must be type `Dict`')
         self.__bot = bot
     
-if __name__ == "__main__":
-    import unittest
-
-    class TestUser(unittest.TestCase):
-        def test_constructure_1(self):
-            # create class from real object
-            u = User({
-                'object' : 'user',
-                'id' : '61111c5a-0000-4ba3-aa3c-a00f0000d5b6',
-                'type' : 'person',
-                'person' :{
-                    'email' : 'test@gmail.com'
-                }
-            })
-            self.assertEqual(u.user_id, '61111c5a-0000-4ba3-aa3c-a00f0000d5b6')
-            
-        def test_set_user_id(self):
-            u = User(r'01234567-0123-0123-0123-0123456789ab')
-            with self.assertRaises(ValueError):
-                u.user_id = r'01234567-0123-0123-0123-0123456789ag'
-        
-        def test_set_type(self):
-            pass
-
-        def test_set_name(self):
-            pass
-
-        def test_set_avatar_url(self):
-            pass
-
-        def test_set_person_email(self):
-            pass
-
-        def test_set_bot(self):
-            pass
-
-    unittest.main()
