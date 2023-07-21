@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import AnyStr, Dict
 from .Client import Client
 from .User import User
-from .Interface.INotionObject import INotionObject
+from .Interface.i_notion_object import INotionObject
 
 class Database(INotionObject):
 

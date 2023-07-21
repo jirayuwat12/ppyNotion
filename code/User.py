@@ -1,7 +1,7 @@
 import re
 from .utils.user import user_id_2_object
 
-from .Interface.INotionObject import INotionObject
+from .Interface.i_notion_object import INotionObject
 from .type import UserType
 from typing import Dict, Any, Optional
 

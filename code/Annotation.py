@@ -1,4 +1,4 @@
-from .Interface.INotionObject import INotionObject
+from .Interface.i_notion_object import INotionObject
 from .type import ColorType
 from typing import Dict
 

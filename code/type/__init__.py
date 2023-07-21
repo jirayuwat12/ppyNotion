@@ -1,10 +1,21 @@
+'''
+Collection of Enumerator class.
+'''
 from enum import Enum
 
+
 class UserType(Enum):
+    '''
+    Enum for type of User 
+    '''
     person = 1
     bot = 2
 
+
 class ColorType(Enum):
+    '''
+    Enum for type of Color
+    '''
     default = 1
     blue = 2
     brown = 3
@@ -25,7 +36,11 @@ class ColorType(Enum):
     red_background = 18
     yellow_background = 19
 
+
 class BaseTextType(Enum):
+    '''
+    Enum for type of Rich text
+    '''
     text = 1
     mention = 2
     equation = 3

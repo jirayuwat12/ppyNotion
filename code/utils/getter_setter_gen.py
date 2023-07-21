@@ -1,6 +1,9 @@
-from tqdm import tqdm 
+'''
+`getter_setter_gen.py` use to create getter/setter function for class
+'''
+from tqdm import tqdm
 
-var = \
+VAR = \
 '''
 __user_id	str
 __type	UserType
@@ -13,9 +16,9 @@ __bot	dict
 getter = ''
 setter = ''
 
-for i in tqdm(var.strip().split('\n')):
+for i in tqdm(VAR.strip().split('\n')):
     name, var_type = i.split()
-    
+
     getter += f'@property \
     \ndef {name[2:]}(self) -> {var_type}: \
     \n    """\
@@ -36,6 +39,6 @@ for i in tqdm(var.strip().split('\n')):
     \n    self.{name} = var\
     \n\n'
 
-print(getter, setter, sep = '\n')
-with open('getter_setter_gen.txt','w') as f:
+print(getter, setter, sep='\n')
+with open('getter_setter_gen.txt', 'w') as f:
     f.write(getter + '\n' + setter)
