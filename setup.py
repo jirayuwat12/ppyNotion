@@ -21,7 +21,7 @@ install_requires = get_requirements("requirements.txt")
 
 setuptools.setup(
     name="ppyNotion",
-    version="0.0.1.2",
+    version="0.0.1.4",
     author="jirayuwat b.",
     author_email="jirayuwat.work@gmail.com",
     description="Connect to your Notion database with ease.",

@@ -1,8 +1,17 @@
+# for bash script
 deploy.sh
+create_class_diagram.sh
+
+# for venv
 /env/
+
 
 *.egg-info/
 dist/
 build/
 
 secret.txt
+getter_setter_gen.txt
+
+#python cache
+*.pyc

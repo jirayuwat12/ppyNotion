@@ -1,12 +1,14 @@
 import requests
 import json
-from utils.date_formatter import ISO8601_to_datetime
+from .utils.date_formatter import ISO8601_to_datetime
 from datetime import datetime
 
-from Client import Client
-from User import User
+from typing import AnyStr, Dict
+from .Client import Client
+from .User import User
+from .Interface.INotionObject import INotionObject
 
-class Database:
+class Database(INotionObject):
 
     API_URL = f"https://api.notion.com/v1/databases/"
     __database_id = None 
@@ -27,8 +29,9 @@ class Database:
     __pages = None
 
     def __init__(self, 
-                 client : Client,
-                 database_id : str,
+                 client : Client = None,
+                 database_id : AnyStr = None,
+                 obj : Dict = None,
                  load_data : bool = True
             ) -> None :
         '''
@@ -36,40 +39,54 @@ class Database:
         '''
 
         # set client class
-        self.set_client(client= client)
+        if client is not None:
+            self.set_client(client= client)
 
-        # set database id 
-        self.set_database_id(databse_id= database_id)
+        # set database id
+        if database_id is not None:
+            self.set_database_id(databse_id= database_id)
 
-        if not load_data : 
+        if not load_data or obj is not None: 
             return
         
         # get data from api
-        response = requests.get(self.API_URL + database_id, headers= client.get_header())
-        if response.status_code != 200 :
-            raise ConnectionError(f"status code = {response.status_code}\nerror = {response}")
-        
-        # convert to object
-        response_json = json.loads(response.text)
+        if load_data:
+            response = requests.get(self.API_URL + database_id, headers= client.get_header())
+            if response.status_code != 200 :
+                raise ConnectionError(f"status code = {response.status_code}\nerror = {response}")
 
+        # convert to object  
+        response_json = json.loads(response.text) if load_data else obj
+        
+        self.from_object(response_json)
+
+    def from_object(self, obj : Dict) -> None:
+        '''
+        set class field by obj in form notion api like.
+        
+            Parameters:
+                obj(dict) : object that has at least `id` key. Other please see at Notion API
+        '''
         # set created time if exist
-        if 'created_time' in response_json:
-            self.set_created_time(response_json['created_time'])
+        if 'created_time' in obj:
+            self.set_created_time(obj['created_time'])
 
         # set created by if exist
-        if 'created_by' in response_json:
-            created_user = User(response_json['created_by'])
+        if 'created_by' in obj:
+            created_user = User(obj['created_by'])
             self.set_created_by(created_user)
 
         # set last edited time if exist
-        if 'last_edited_time' in response_json:
-            self.set_last_edited_time(response_json['last_edited_time'])
+        if 'last_edited_time' in obj:
+            self.set_last_edited_time(obj['last_edited_time'])
 
         # set last edited time if exist
-        if 'last_edited_by' in response_json:
-            last_edited_user = User(response_json['last_edited_by'])
+        if 'last_edited_by' in obj:
+            last_edited_user = User(obj['last_edited_by'])
             self.set_last_edited_by(last_edited_user)
 
+    def to_object(self) -> Dict:
+        pass
 
     def __str__(self):
         return f'database id = {self.get_database_id()} \
@@ -171,5 +188,8 @@ if __name__ == "__main__":
 
     client = Client(token)
     db = Database(client, dbid)
+
+    u = db.get_created_by()
+
 
     print(db)

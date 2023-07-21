@@ -1,21 +1,14 @@
 import re
-from enum import Enum 
-from utils.user import user_id_2_object
+from .utils.user import user_id_2_object
 
-class UserType(Enum):
-    PERSON = 1
-    BOT = 2
+from .Interface.INotionObject import INotionObject
+from .type import UserType
+from typing import Dict, Any, Optional
 
-class User:
 
-    __userID = None 
-    __type = None 
-    __name = None 
-    __avatar_url = None 
-    __person_email = None 
-    __bot = None 
+class User(INotionObject):
 
-    def __init__(self, obj : any) -> None:
+    def __init__(self, obj : Any) -> None:
         '''
         create User class by object that have
         1. 'object' key with the value 'user'
@@ -26,70 +19,156 @@ class User:
                 obj (dict) : obj that commonly got from API
                 or obj (str) : user id that you know.
         '''
+
         # if obj is string -> use utils function to convert into object
-        if type(obj) == str :
+        if isinstance(obj, str) :
             obj = user_id_2_object(obj)
 
         if obj['object'] != 'user':
             raise TypeError('object must ne user type object')
         
+        self.from_object(obj)
+
+    def from_object(self, obj : Dict) -> None:
         # set user id
-        self.set_user_id(obj['id'])
+        self.user_id = obj['id']
         # set type if exist
         if 'type' in obj :
-            self.set_type(obj['type'])
+            self.type = obj['type']
         # set name if exist
         if 'name' in obj :
-            self.set_name(obj['name'])
+            self.name = obj['name']
         # set avatar url if exist
         if 'avatar_url' in obj :
-            self.set_avatar_url(obj['avatar_url'])
+            self.avatar_url = obj['avatar_url']
         # set person email if type = PERSON
-        if self.get_type == UserType.PERSON and 'person' in obj and 'email' in obj['person']:
-            self.set_person_email(obj['person']['email'])
+        if 'person' in obj:
+            if 'email' in obj['person']:
+                self.person_email = obj['person']['email']
         # set bot if type = BOT
-        if self.get_type == UserType.BOT and 'bot' in obj:
-            self.set_bot(obj['bot'])
-            self.set_type(UserType.BOT)
+        if 'bot' in obj:
+            self.bot = obj['bot']
+    
+    def to_object(self) -> Dict:
+        ret =  {
+            "object" : "user",
+            "id" : self.user_id,
+        }
+        
+        if self.type is not None:
+            ret['type'] = self.type.name
+            if self.type.name == 'person' and self.person_email is not None:
+                ret['person'] = dict()
+                ret['person']['email'] = self.person_email
+            else:
+                ret['bot'] = self.bot
+        
+        if self.name is not None:
+            ret['name'] = self.name
+        
+        if self.avatar_url is not None:
+            ret['avatar_url'] = self.avatar_url
+        
+        return ret
 
     def __str__(self):
-        return f'{self.get_name()}({self.get_user_id()})'
+        return f'{self.name}({self.user_id})'
+    
+    @property     
+    def user_id(self) -> str:     
+        """    
+            return the user_id(str) in class    
+        """    
+        try : self.__user_id    
+        except : self.__user_id = str()    
+        return self.__user_id    
 
-    def set_user_id(self, user_id : str) -> None :
+    @property     
+    def type(self) -> UserType:     
+        """    
+            return the type(UserType) in class    
+        """    
+        try : self.__type    
+        except : self.__type = UserType()    
+        return self.__type    
+
+    @property     
+    def name(self) -> str:     
+        """    
+            return the name(str) in class    
+        """    
+        try : self.__name    
+        except : self.__name = str()    
+        return self.__name    
+
+    @property     
+    def avatar_url(self) -> str:     
+        """    
+            return the avatar_url(str) in class    
+        """    
+        try : self.__avatar_url    
+        except : self.__avatar_url = str()    
+        return self.__avatar_url    
+
+    @property     
+    def person_email(self) -> str:     
+        """    
+            return the person_email(str) in class    
+        """    
+        try : self.__person_email    
+        except : self.__person_email = str()    
+        return self.__person_email    
+
+    @property     
+    def bot(self) -> dict:     
+        """    
+            return the bot(dict) in class    
+        """    
+        try : self.__bot    
+        except : self.__bot = dict()    
+        return self.__bot    
+
+
+    @user_id.setter
+    def user_id(self, var : str) :
         '''
-        set user_id (UUID) to the class if pass the following condition
+        set var (UUID) to the class if pass the following condition
         1. in form 8-4-4-12 (total 32 characters)
         2. each character be 0-9 or a-f
             
             Parameters:
-                user_id (str) : user id
+                var (str) : user id
         '''
-        if not re.match("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", user_id):
-            raise ValueError(f"user id ({user_id}) must be in UUID form")
+        if not re.match("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", var):
+            raise ValueError(f"user id ({var}) must be in UUID form")
 
-        self.__userID = user_id
+        self.__userID = var
     
-    def set_type(self, type : str) -> None :
+    @type.setter
+    def type(self, type : UserType) -> None :
         '''
         set type of user
 
             Parameters:
                 type (str) : must be string of 'person' or 'bot' only 
         '''
-        if type == "person" :
-            self.__type = UserType.PERSON
-        elif type == "bot" :
-            self.__type = UserType.BOT
+        if isinstance(type, UserType):
+            self.type = type
         else:
-            raise ValueError("type must be either 'bot' or 'person'.")
+            raise ValueError("type must be `UserType` class.\nor you want to use `str` please use `set_type` instead")
 
-    def set_name(self, name : str) -> None :
+    def set_type(self, type_name : str) -> None:
+        self.type = UserType[type_name]
+
+    @name.setter
+    def name(self, name : str) -> None :
         '''
         set name as show in notion
         '''
         self.__name = name
     
-    def set_avatar_url(self, avatar_url : str) -> None : 
+    @avatar_url.setter
+    def avatar_url(self, avatar_url : str) -> None : 
         '''
         set avatar url
         '''
@@ -98,70 +177,22 @@ class User:
         
         self.__avatar_url = avatar_url
 
-    def set_person_email(self, person_email : str) -> None :
+    @person_email.setter
+    def person_email(self, person_email : str) -> None :
         '''
         set User email
         must in form (string1)@(string2).(string3)
         '''
         if not re.match(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+', person_email):
             raise ValueError('invalid email form')
-        
         self.__person_email = person_email
 
-    def set_bot(self, bot : dict) -> None :
+    @bot.setter
+    def bot(self, bot : Dict) -> None :
         '''
         in case that this user is bot this must not null
         '''
+        if not isinstance(bot, Dict):
+            raise TypeError(f'bot must be type `Dict`')
         self.__bot = bot
-
-    def get_user_id(self) -> str:
-        return self.__userID
     
-    def get_type(self) -> UserType :
-        return self.__type
-    
-    def get_name(self) -> str :
-        return self.__name
-    
-    def get_avatar_url(self) -> str :
-        return self.__avatar_url
-    
-    def get_person_email(self) -> str :
-        return self.__person_email
-    
-    def get_bot(self) -> dict : 
-        return self.__bot
-    
-if __name__ == "__main__":
-    import unittest
-
-    class TestUser(unittest.TestCase):
-        def test_constructure_1(self):
-            # create class from real object
-            u = User({
-                'object' : 'user',
-                'id' : '61111c5a-0000-4ba3-aa3c-a00f0000d5b6'
-            })
-            self.assertEqual(u.get_user_id(), '61111c5a-0000-4ba3-aa3c-a00f0000d5b6')
-            
-        def test_set_user_id(self):
-            u = User(r'01234567-0123-0123-0123-0123456789ab')
-            with self.assertRaises(ValueError):
-                u.set_user_id(r'01234567-0123-0123-0123-0123456789ag')
-        
-        def test_set_type(self):
-            pass
-
-        def test_set_name(self):
-            pass
-
-        def test_set_avatar_url(self):
-            pass
-
-        def test_set_person_email(self):
-            pass
-
-        def test_set_bot(self):
-            pass
-
-    unittest.main()
