@@ -4,8 +4,8 @@ from .utils.date_formatter import ISO8601_to_datetime
 from datetime import datetime
 
 from typing import AnyStr, Dict
-from .Client import Client
-from .User import User
+from .client import Client
+from .user import User
 from .Interface.i_notion_object import INotionObject
 
 class Database(INotionObject):
