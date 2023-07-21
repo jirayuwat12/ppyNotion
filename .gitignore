@@ -10,5 +10,8 @@ create_class_diagram.sh
 dist/
 build/
 
-# to save token
 secret.txt
+getter_setter_gen.txt
+
+#python cache
+*.pyc
