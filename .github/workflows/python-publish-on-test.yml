@@ -9,10 +9,7 @@
 name: Upload Python Package to Test PYPI
 
 on:
-  push:
-    branches-ignore:
-      - main
-
+  push
 
 permissions:
   contents: read
