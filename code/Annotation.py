@@ -150,11 +150,15 @@ class Annotation(INotionObject):
         """    
             set value to color variable, need to be `ColorType` type    
         """    
-        if not isinstance(var, ColorType):    
-            raise TypeError(f"color must be a `ColorType` type")    
-        self.__color = var    
+        if isinstance(var, ColorType):    
+            self.__color = var    
+        elif isinstance(var, str):
+            self.__color = ColorType[var]
+        else:
+            raise TypeError(f"color must be a `ColorType` or `str` type")   
 
 
 if __name__ == "__main__":
     a = Annotation()
+    a.color = 'blue'
     print(a)
