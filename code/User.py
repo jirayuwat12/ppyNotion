@@ -2,12 +2,9 @@ import re
 from .utils.user import user_id_2_object
 
 from .Interface.INotionObject import INotionObject
-from enum import Enum 
+from .type import UserType
 from typing import Dict, Any, Optional
 
-class UserType(Enum):
-    person = 1
-    bot = 2
 
 class User(INotionObject):
 
