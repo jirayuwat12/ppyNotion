@@ -44,3 +44,42 @@ class BaseTextType(Enum):
     text = 1
     mention = 2
     equation = 3
+
+
+class FormularType(Enum):
+    boolean = 1
+    date = 2
+    number = 3
+    string = 4
+
+
+class MentionType(Enum):
+    database = 1
+    date = 2
+    link_preview = 3
+    page = 4
+    template_mention = 5
+    user = 6
+
+
+class PropertyType(Enum):
+    checkbox = 1
+    created_by = 2
+    created_time = 3
+    date = 4
+    email = 5
+    files = 6
+    formula = 7
+    last_edited_by = 8
+    last_edited_time = 9
+    multi_select = 10
+    number = 11
+    people = 12
+    phone_number = 13
+    relation = 14
+    rollup = 15
+    rich_text = 16
+    select = 17
+    status = 18
+    title = 19
+    url = 20
