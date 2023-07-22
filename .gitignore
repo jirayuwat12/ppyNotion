@@ -15,3 +15,6 @@ getter_setter_gen.txt
 
 #python cache
 *.pyc
+
+# vs code
+.vscode/
