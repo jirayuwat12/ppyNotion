@@ -9,7 +9,9 @@
 name: Upload Python Package to Test PYPI
 
 on:
-  push
+  push:
+    paths:
+      - 'setup.py'
 
 permissions:
   contents: read
