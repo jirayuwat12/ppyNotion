@@ -5,7 +5,7 @@ import re
 
 from typing import Dict, Any
 
-from .Interface.i_notion_object import INotionObject
+from .interface.i_notion_object import INotionObject
 from .type import UserType
 
 from .utils.user import user_id_2_object
@@ -23,7 +23,7 @@ class User(INotionObject):
             or obj (str) : user id that you know.
     '''
 
-    def __init__(self, obj: Any) -> None:
+    def __init__(self, obj: Any = None) -> None:
         # if obj is string -> use utils function to convert into object
         if isinstance(obj, str):
             obj = user_id_2_object(obj)

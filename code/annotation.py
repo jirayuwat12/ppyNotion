@@ -3,7 +3,7 @@ Annotation class is use for Rich text object in Notion
 '''
 
 from typing import Dict
-from .Interface.i_notion_object import INotionObject
+from .interface.i_notion_object import INotionObject
 from .type import ColorType
 
 
