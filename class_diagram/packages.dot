@@ -1,0 +1,55 @@
+digraph "packages" {
+rankdir=BT
+charset="utf-8"
+"code" [color="black", label=<code>, shape="box", style="solid"];
+"code.annotation" [color="black", label=<code.annotation>, shape="box", style="solid"];
+"code.base_text" [color="black", label=<code.base_text>, shape="box", style="solid"];
+"code.choice" [color="black", label=<code.choice>, shape="box", style="solid"];
+"code.client" [color="black", label=<code.client>, shape="box", style="solid"];
+"code.database" [color="black", label=<code.database>, shape="box", style="solid"];
+"code.emoji" [color="black", label=<code.emoji>, shape="box", style="solid"];
+"code.equation" [color="black", label=<code.equation>, shape="box", style="solid"];
+"code.interface" [color="black", label=<code.interface>, shape="box", style="solid"];
+"code.interface.i_notion_object" [color="black", label=<code.interface.i_notion_object>, shape="box", style="solid"];
+"code.link" [color="black", label=<code.link>, shape="box", style="solid"];
+"code.mention" [color="black", label=<code.mention>, shape="box", style="solid"];
+"code.page" [color="black", label=<code.page>, shape="box", style="solid"];
+"code.parent" [color="black", label=<code.parent>, shape="box", style="solid"];
+"code.text" [color="black", label=<code.text>, shape="box", style="solid"];
+"code.type" [color="black", label=<code.type>, shape="box", style="solid"];
+"code.user" [color="black", label=<code.user>, shape="box", style="solid"];
+"code.utils" [color="black", label=<code.utils>, shape="box", style="solid"];
+"code.utils.date_formatter" [color="black", label=<code.utils.date_formatter>, shape="box", style="solid"];
+"code.utils.getter_setter_gen" [color="black", label=<code.utils.getter_setter_gen>, shape="box", style="solid"];
+"code.utils.user" [color="black", label=<code.utils.user>, shape="box", style="solid"];
+"code.annotation" -> "code.interface.i_notion_object" [arrowhead="open", arrowtail="none"];
+"code.annotation" -> "code.type" [arrowhead="open", arrowtail="none"];
+"code.base_text" -> "code.annotation" [arrowhead="open", arrowtail="none"];
+"code.base_text" -> "code.interface.i_notion_object" [arrowhead="open", arrowtail="none"];
+"code.base_text" -> "code.type" [arrowhead="open", arrowtail="none"];
+"code.choice" -> "code.interface.i_notion_object" [arrowhead="open", arrowtail="none"];
+"code.choice" -> "code.type" [arrowhead="open", arrowtail="none"];
+"code.database" -> "code.client" [arrowhead="open", arrowtail="none"];
+"code.database" -> "code.interface.i_notion_object" [arrowhead="open", arrowtail="none"];
+"code.database" -> "code.user" [arrowhead="open", arrowtail="none"];
+"code.database" -> "code.utils.date_formatter" [arrowhead="open", arrowtail="none"];
+"code.emoji" -> "code.interface.i_notion_object" [arrowhead="open", arrowtail="none"];
+"code.equation" -> "code.base_text" [arrowhead="open", arrowtail="none"];
+"code.link" -> "code.interface.i_notion_object" [arrowhead="open", arrowtail="none"];
+"code.mention" -> "code.base_text" [arrowhead="open", arrowtail="none"];
+"code.mention" -> "code.database" [arrowhead="open", arrowtail="none"];
+"code.mention" -> "code.page" [arrowhead="open", arrowtail="none"];
+"code.mention" -> "code.type" [arrowhead="open", arrowtail="none"];
+"code.mention" -> "code.user" [arrowhead="open", arrowtail="none"];
+"code.page" -> "code.interface.i_notion_object" [arrowhead="open", arrowtail="none"];
+"code.page" -> "code.parent" [arrowhead="open", arrowtail="none"];
+"code.page" -> "code.user" [arrowhead="open", arrowtail="none"];
+"code.parent" -> "code.interface.i_notion_object" [arrowhead="open", arrowtail="none"];
+"code.text" -> "code.annotation" [arrowhead="open", arrowtail="none"];
+"code.text" -> "code.base_text" [arrowhead="open", arrowtail="none"];
+"code.text" -> "code.link" [arrowhead="open", arrowtail="none"];
+"code.text" -> "code.type" [arrowhead="open", arrowtail="none"];
+"code.user" -> "code.interface.i_notion_object" [arrowhead="open", arrowtail="none"];
+"code.user" -> "code.type" [arrowhead="open", arrowtail="none"];
+"code.user" -> "code.utils.user" [arrowhead="open", arrowtail="none"];
+}
