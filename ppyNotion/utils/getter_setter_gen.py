@@ -6,8 +6,8 @@ from tqdm import tqdm
 
 VAR = \
     '''
-__type	str
-__id	strorbool
+__id	str
+__type	PropertyType
 '''
 
 

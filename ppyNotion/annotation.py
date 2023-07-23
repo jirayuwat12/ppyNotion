@@ -175,9 +175,3 @@ class Annotation(INotionObject):
             self.__color = ColorType[var]
         else:
             raise TypeError("color must be a `ColorType` or `str` type")
-
-
-if __name__ == "__main__":
-    a = Annotation()
-    a.color = 'blue'
-    print(a)
