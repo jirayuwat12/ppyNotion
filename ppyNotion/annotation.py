@@ -2,7 +2,7 @@
 Annotation class is use for Rich text object in Notion 
 '''
 
-from typing import Dict
+from typing import Dict, Optional
 from .interface.i_notion_object import INotionObject
 from .type import ColorType
 
@@ -17,8 +17,8 @@ class Annotation(INotionObject):
             self.from_object(obj)
 
     def from_object(self, obj: Dict) -> None:
-        if 'bold' in obj:
-            self.bold = obj['bold']
+        bold_var = obj.get('bold')
+        self.bold = bold_var
 
         if 'italic' in obj:
             self.italic = obj['italic']
@@ -32,8 +32,11 @@ class Annotation(INotionObject):
         if 'code' in obj:
             self.code = obj['code']
 
-        if 'color' in obj:
-            self.color = obj['color']
+        color_var = obj.get('color')
+        if isinstance(color_var, ColorType) or color_var is None:
+            self.color = color_var
+        else:
+            self.set_color(color_var)
 
     def to_object(self) -> Dict:
         '''
@@ -165,13 +168,16 @@ class Annotation(INotionObject):
         self.__code = var
 
     @color.setter
-    def color(self, var: ColorType) -> None:
+    def color(self, var: Optional[ColorType]) -> None:
         """    
             set value to color variable, need to be `ColorType` type    
         """
-        if isinstance(var, ColorType):
+        if isinstance(var, ColorType) or var is None:
             self.__color = var
-        elif isinstance(var, str):
-            self.__color = ColorType[var]
         else:
-            raise TypeError("color must be a `ColorType` or `str` type")
+            raise TypeError("color must be a `ColorType` type\nor if you want to change by type name please use `set_color` instead")
+    
+    def set_color(self, color_type : str):
+        if not isinstance(color_type, str):
+            raise TypeError('must be `str` type ')
+        self.__color = ColorType[color_type]
