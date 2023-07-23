@@ -51,7 +51,3 @@ class TestAnnotation(unittest.TestCase):
             annotation_class.color = "blue"
         annotation_class.set_color("pink")
         self.assertEqual(annotation_class.color, ColorType.pink)
-
-
-if __name__ == "__main__":
-    unittest.main()
