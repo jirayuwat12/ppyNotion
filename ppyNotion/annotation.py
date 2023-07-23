@@ -175,9 +175,13 @@ class Annotation(INotionObject):
         if isinstance(var, ColorType) or var is None:
             self.__color = var
         else:
-            raise TypeError("color must be a `ColorType` type\nor if you want to change by type name please use `set_color` instead")
-    
+            raise TypeError("color must be a `ColorType` type\
+\nor if you want to change by type name please use `set_color` instead")
+
     def set_color(self, color_type : str):
+        '''
+        set class `color` by using color name type that declare in `ColorType`
+        '''
         if not isinstance(color_type, str):
             raise TypeError('must be `str` type ')
         self.__color = ColorType[color_type]

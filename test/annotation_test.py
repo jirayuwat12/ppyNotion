@@ -1,47 +1,57 @@
+'''
+test `Annotation class
+'''
 import unittest
 from ppyNotion.annotation import Annotation
 from ppyNotion.type import ColorType
 
 
 class TestAnnotation(unittest.TestCase):
+    ''' test `Annotation class '''
     OBJ = {
-            "bold": False,
-            "italic": False,
-            "strikethrough": True,
-            "underline": False,
-            "code": True,
-            "color": "blue"
+        "bold": False,
+        "italic": False,
+        "strikethrough": True,
+        "underline": False,
+        "code": True,
+        "color": "blue"
     }
+
     def test_empty_init(self):
-        a = Annotation()
-        self.assertFalse(a.bold)
-        self.assertFalse(a.italic)
-        self.assertFalse(a.code)
-        self.assertFalse(a.strikethrough)
-        self.assertFalse(a.underline)
-        self.assertEqual(a.color, ColorType.default)
+        ''' test for empty obj initiation '''
+        annotation_class = Annotation()
+        self.assertFalse(annotation_class.bold)
+        self.assertFalse(annotation_class.italic)
+        self.assertFalse(annotation_class.code)
+        self.assertFalse(annotation_class.strikethrough)
+        self.assertFalse(annotation_class.underline)
+        self.assertEqual(annotation_class.color, ColorType.default)
 
     def test_obj_init(self):
-        a = Annotation(self.OBJ)
-        self.assertFalse(a.bold)
-        self.assertFalse(a.italic)
-        self.assertTrue(a.strikethrough)
-        self.assertFalse(a.underline)
-        self.assertTrue(a.code)
-        self.assertEqual(a.color, ColorType.blue)
+        ''' test with object from Notion API '''
+        annotation_class = Annotation(self.OBJ)
+        self.assertFalse(annotation_class.bold)
+        self.assertFalse(annotation_class.italic)
+        self.assertTrue(annotation_class.strikethrough)
+        self.assertFalse(annotation_class.underline)
+        self.assertTrue(annotation_class.code)
+        self.assertEqual(annotation_class.color, ColorType.blue)
 
     def test_change_field(self):
-        a = Annotation(self.OBJ)
+        ''' test for change field both valid and invalid '''
+        annotation_class = Annotation(self.OBJ)
         # valid change
-        a.bold = True
-        self.assertTrue(a.bold)
+        annotation_class.bold = True
+        self.assertTrue(annotation_class.bold)
         # invalid change
         with self.assertRaises(TypeError):
-            a.bold = "True"
+            annotation_class.bold = "True"
         # change by str
         with self.assertRaises(TypeError):
-            a.color = "blue"
-        a.set_color("pink")
-        self.assertEqual(a.color, ColorType.pink)
+            annotation_class.color = "blue"
+        annotation_class.set_color("pink")
+        self.assertEqual(annotation_class.color, ColorType.pink)
+
+
 if __name__ == "__main__":
     unittest.main()
