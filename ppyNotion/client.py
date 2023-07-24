@@ -1,8 +1,11 @@
 '''
 Core class that use to connect to Notion API
 '''
-from typing import Dict
 import requests
+import json
+
+from typing import Dict, Tuple
+from .user import User
 
 
 class Client:
@@ -26,7 +29,7 @@ class Client:
         '''
         self.set_token(token=token, set_header=True,
                        is_check_token=is_check_token)
-        self.set_header()
+        self.set_header(is_check_token=is_check_token)
 
     def is_valid_token(self,
                        token: str,
@@ -79,6 +82,10 @@ class Client:
             Return:
                 self.__token
         '''
+        try:
+            self.__token
+        except AttributeError:
+            self.__token = None
         return self.__token
 
     @property
@@ -88,7 +95,26 @@ class Client:
             Return:
                 self.__header
         '''
+        try:
+            self.__header
+        except AttributeError:
+            self.__header = None
+            if self.token is not None:
+                self.set_header()
+
         return self.__header
+
+    @property
+    def user(self) -> User:
+        try:
+            self.__user
+        except AttributeError:
+            self.__user = None
+            if self.token is not None:
+                self.set_header()
+                self.__user, _ = self.get_user()
+        return self.__user
+
 
     @token.setter
     def token(self, var: str) -> None:
@@ -148,3 +174,38 @@ class Client:
             "Content-Type": content_type,
             "Notion-Version": notion_version
         }
+
+    def get_user(self,
+                 token : str = None,
+                 timeout : int = 1000) -> Tuple:
+        '''
+        use token to get user from Notion API
+            
+            Parameters:
+                token (str | None) : your token from Notion integrations if token is none -> user class token
+                timeout (int) : is the time limits for requests
+            Returns:
+                (User, status_code) : if your token is valid the first element is User else None,
+                for status_code is the value from HTTP code
+
+        '''
+        if token is None:
+            token = self.token
+
+        response = requests.get(
+                url=r'https://api.notion.com/v1/users/me',
+                headers={
+                    "Authorization": "Bearer" + " " + token,
+                    "Content-Type": "application/json",
+                    "Notion-Version": "2022-06-28"
+                },timeout=timeout
+            )
+        
+        user_return = None
+
+        if response.status_code == 200:
+            response_json = json.loads(response.text)
+            user_return = User(response_json)
+
+        return (user_return, response.status_code)
+        
