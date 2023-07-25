@@ -30,8 +30,17 @@ class TestText(unittest.TestCase):
     def test_empty_init(self):
         ''' test with empty object initiation '''
         text_var = Text()
-        self.assertEqual(text_var.content, str())
-        self.assertIsInstance(text_var.link, Link)
+        self.assertIsNone(text_var.type)
+        self.assertEqual(text_var.content,
+                         str())
+        self.assertIsInstance(text_var.link,
+                              Link)
+        self.assertIsInstance(text_var.annotations,
+                              Annotation)
+        self.assertEqual(text_var.plain_text,
+                         str())
+        self.assertEqual(text_var.href,
+                         str())
 
     def test_object_init(self):
         ''' test with object initiation '''

@@ -29,7 +29,7 @@ class Text(BaseText):
 
     def to_object(self) -> Dict:
         obj = super().to_object()
-        
+
         obj[self.type.name] = dict()
 
         if self.content is not None:
