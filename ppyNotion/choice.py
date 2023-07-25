@@ -28,6 +28,15 @@ class Choice(INotionObject):
     def to_object(self) -> Dict:
         obj = dict()
 
+        if self.id is not None:
+            obj['id'] = self.id
+
+        if self.name is not None:
+            obj['name'] = self.name
+
+        if self.color is not None:
+            obj['color'] = self.color.name
+
         return obj
 
     @property
@@ -78,7 +87,7 @@ class Choice(INotionObject):
             set type by type name,
             type name must be in `ColorType` class
         """
-        raise NotImplementedError
+        self.__color = ColorType[color_value]
 
     @id.setter
     def id(self, var : Optional[str]) -> None:
