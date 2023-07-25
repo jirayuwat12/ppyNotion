@@ -22,6 +22,12 @@ class Property(INotionObject):
     def to_object(self) -> Dict:
         obj = dict()
 
+        if self.id is not None:
+            obj['id'] = self.id
+
+        if self.type is not None:
+            obj['type'] = self.type.name
+
         return obj
 
     @property
@@ -43,7 +49,7 @@ class Property(INotionObject):
         try :
             self.__type
         except AttributeError:
-            self.__type = PropertyType["default"]
+            self.__type = None
         return self.__type
 
 
@@ -70,4 +76,4 @@ class Property(INotionObject):
             set type by type name,
             type name must be in `PropertyType` class
         """
-        raise NotImplementedError
+        self.__type = PropertyType[type_value]
