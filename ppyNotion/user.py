@@ -17,16 +17,22 @@ class User(INotionObject):
     1. 'object' key with the value 'user'
     2. 'id' key with non-empty value
     or the string of user id
+    **This object is read-only class**
 
         Parameters:
             obj (dict) : obj that commonly got from API
             or obj (str) : user id that you know.
     '''
 
-    def __init__(self, obj: Any = None) -> None:
+    def __init__(self,
+                 obj: Any = None,
+                 user_id: str = None) -> None:
         # if obj is string -> use utils function to convert into object
-        if isinstance(obj, str):
-            obj = user_id_2_object(obj)
+        if obj is None and user_id is None:
+            return
+
+        if obj is None:
+            obj = user_id_2_object(user_id)
 
         if obj['object'] != 'user':
             raise TypeError('object must ne user type object')
@@ -38,7 +44,7 @@ class User(INotionObject):
         self.user_id = obj['id']
         # set type if exist
         if 'type' in obj:
-            self.type = obj['type']
+            self.set_type(obj['type'])
         # set name if exist
         if 'name' in obj:
             self.name = obj['name']
@@ -86,7 +92,7 @@ class User(INotionObject):
         try:
             self.__user_id
         except AttributeError:
-            self.__user_id = str()
+            self.__user_id = None
         return self.__user_id
 
     @property
@@ -97,7 +103,7 @@ class User(INotionObject):
         try:
             self.__type
         except AttributeError:
-            self.__type = UserType['default']
+            self.__type = None
         return self.__type
 
     @property
@@ -108,7 +114,7 @@ class User(INotionObject):
         try:
             self.__name
         except AttributeError:
-            self.__name = str()
+            self.__name = None
         return self.__name
 
     @property
@@ -119,7 +125,7 @@ class User(INotionObject):
         try:
             self.__avatar_url
         except AttributeError:
-            self.__avatar_url = str()
+            self.__avatar_url = None
         return self.__avatar_url
 
     @property
@@ -130,7 +136,7 @@ class User(INotionObject):
         try:
             self.__person_email
         except AttributeError:
-            self.__person_email = str()
+            self.__person_email = None
         return self.__person_email
 
     @property
@@ -141,14 +147,14 @@ class User(INotionObject):
         try:
             self.__bot
         except AttributeError:
-            self.__bot = dict()
+            self.__bot = None
         return self.__bot
 
     @user_id.setter
     def user_id(self, var: str):
         '''
         set var (UUID) to the class if pass the following condition
-        1. in form 8-4-4-12 (total 32 characters)
+        1. in form 8-4-4-4-12 (total 32 characters)
         2. each character be 0-9 or a-f
 
             Parameters:
@@ -180,7 +186,7 @@ class User(INotionObject):
             Parameters:
                 type_name(str) : must be either 'person' or 'bot'
         '''
-        self.type = UserType[type_name]
+        self.__type = UserType[type_name]
 
     @name.setter
     def name(self, name: str) -> None:
@@ -194,9 +200,7 @@ class User(INotionObject):
         '''
         set avatar url
         '''
-        if not re.match(r"^((http|https)://)[-a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)$", avatar_url):
-            raise ValueError('avatar url must in the standard format')
-
+        
         self.__avatar_url = avatar_url
 
     @person_email.setter
