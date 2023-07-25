@@ -3,6 +3,7 @@ import unittest
 from ppyNotion.choice import Choice
 from ppyNotion.type import ColorType
 
+
 class TestChoice(unittest.TestCase):
     ''' test `Choice` class '''
     OBJ1 = {
@@ -28,7 +29,7 @@ class TestChoice(unittest.TestCase):
 
     def test_object_init(self):
         ''' test init with object '''
-        choice_var = Choice(obj = self.OBJ1)
+        choice_var = Choice(obj=self.OBJ1)
         self.assertEqual(choice_var.id,
                          self.OBJ1['id'])
         self.assertEqual(choice_var.name,
@@ -51,8 +52,8 @@ class TestChoice(unittest.TestCase):
 
     def test_to_object_function(self):
         ''' test `to_object` function '''
-        choice_var = Choice(obj = self.OBJ1)
+        choice_var = Choice(obj=self.OBJ1)
         self.assertDictEqual(choice_var.to_object(), self.OBJ1)
 
-        choice_var = Choice(obj = self.OBJ2)
+        choice_var = Choice(obj=self.OBJ2)
         self.assertDictEqual(choice_var.to_object(), self.OBJ2)

@@ -6,26 +6,27 @@ from ppyNotion.base_text import BaseText
 from ppyNotion.type import BaseTextType
 from ppyNotion.annotation import Annotation
 
+
 class TestBaseText(unittest.TestCase):
     '''
     test base text class
     '''
     OBJ = {
-      "type": "text",
-      "text": {
-        "content": "MTL Intern work timestamp",
-        "link": None
-      },
-      "annotations": {
-        "bold": False,
-        "italic": True,
-        "strikethrough": False,
-        "underline": True,
-        "code": False,
-        "color": "default"
-      },
-      "plain_text": "MTL Intern work timestamp",
-      "href": None
+        "type": "text",
+        "text": {
+            "content": "MTL Intern work timestamp",
+            "link": None
+        },
+        "annotations": {
+            "bold": False,
+            "italic": True,
+            "strikethrough": False,
+            "underline": True,
+            "code": False,
+            "color": "default"
+        },
+        "plain_text": "MTL Intern work timestamp",
+        "href": None
     }
 
     def test_empty_obj_init(self):
@@ -72,5 +73,5 @@ class TestBaseText(unittest.TestCase):
 
     def test_to_object(self):
         ''' test `to_object` function '''
-        text_var = BaseText(obj = self.OBJ)
+        text_var = BaseText(obj=self.OBJ)
         self.assertDictContainsSubset(text_var.to_object(), self.OBJ)

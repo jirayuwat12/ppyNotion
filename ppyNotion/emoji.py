@@ -1,16 +1,18 @@
 '''
 to store emoji in Notion Object
 '''
-from typing import Dict, Optional
+from typing import Dict, Optional, Any
 from .interface.i_notion_object import INotionObject
 
 class Emoji(INotionObject):
     '''
     to store emoji in Notion Object
     obj can be `emoji` or `object` from API
+
     '''
 
-    def __init__(self, obj) -> None:
+    def __init__(self, obj : Any = None) -> None:
+
         if isinstance(obj, Dict):
             self.from_object(obj)
         else:
@@ -22,6 +24,9 @@ class Emoji(INotionObject):
 
     def to_object(self) -> Dict:
         obj = dict()
+
+        obj['type'] = 'emoji'
+        obj['emoji'] = self.emoji
 
         return obj
 

@@ -36,4 +36,4 @@ class TestClient(unittest.TestCase):
         ''' init then test str function '''
         token = 'secret................'
         client_var = Client(token=token, is_check_token=False)
-        self.assertEqual(str(client_var),f'client token = {token}')
+        self.assertEqual(str(client_var), f'client token = {token}')
