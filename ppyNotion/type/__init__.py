@@ -83,3 +83,20 @@ class PropertyType(Enum):
     status = 18
     title = 19
     url = 20
+
+
+class RollupType(Enum):
+    array = 1
+    date = 2
+    incomplete = 3
+    number = 4
+    unsupported = 5
+
+
+class TemplateMentionDateType(Enum):
+    today = 1
+    now = 2
+
+
+class TemplateMentionUserType(Enum):
+    me = 1
