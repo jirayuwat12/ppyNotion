@@ -1,6 +1,7 @@
-# ppyNotion
+# ppyNotion [This library is **not currently** available for use]
 ---
-**This library is not currently available for use**
+
+
 This is library that help you to automate notion database with **ease**
 
 ## Download from github
