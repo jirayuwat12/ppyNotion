@@ -6,7 +6,7 @@ from tqdm import tqdm
 
 VAR = \
     '''
-__checkbox	bool
+__rich_text	list[BaseText]
 '''
 
 
