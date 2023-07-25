@@ -1,6 +1,6 @@
 import requests
 import json
-from .utils.date_formatter import ISO8601_to_datetime
+from .utils.date_formatter import iso8601_to_datetime
 from datetime import datetime
 
 from typing import AnyStr, Dict
@@ -10,7 +10,7 @@ from .interface.i_notion_object import INotionObject
 
 class Database(INotionObject):
 
-    API_URL = f"https://api.notion.com/v1/databases/"
+    API_URL = r"https://api.notion.com/v1/databases/"
     __database_id = None 
     __client = None 
     __created_time = None 
