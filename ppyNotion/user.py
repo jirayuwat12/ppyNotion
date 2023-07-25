@@ -182,7 +182,7 @@ class User(INotionObject):
     def set_type(self, type_name: str) -> None:
         '''
         seet class type by str
-        
+
             Parameters:
                 type_name(str) : must be either 'person' or 'bot'
         '''
@@ -200,7 +200,7 @@ class User(INotionObject):
         '''
         set avatar url
         '''
-        
+
         self.__avatar_url = avatar_url
 
     @person_email.setter
