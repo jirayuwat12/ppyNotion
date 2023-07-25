@@ -1,4 +1,6 @@
-
+'''
+    `Choice` class use for multi-select or select class
+'''
 from typing import Dict, Optional
 from .interface.i_notion_object import INotionObject
 from .type import ColorType
