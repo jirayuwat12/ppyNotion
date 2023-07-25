@@ -12,7 +12,7 @@ class TestBaseText(unittest.TestCase):
     test base text class
     '''
     OBJ = {
-        "type": "text",
+        "type": "equation",
         "text": {
             "content": "MTL Intern work timestamp",
             "link": None
@@ -40,7 +40,7 @@ class TestBaseText(unittest.TestCase):
     def test_obj_init(self):
         ''' test with obj init '''
         base_text_var = BaseText(obj=self.OBJ)
-        self.assertEqual(base_text_var.type, BaseTextType.text)
+        self.assertEqual(base_text_var.type, BaseTextType.equation)
         self.assertEqual(base_text_var.annotations.bold, False)
         self.assertEqual(base_text_var.annotations.italic, True)
         self.assertEqual(base_text_var.annotations.strikethrough, False)

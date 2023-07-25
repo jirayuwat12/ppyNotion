@@ -14,12 +14,16 @@ class Equation(BaseText):
             self.from_object(obj)
 
     def from_object(self, obj : Dict) -> None:
-        self.expression = obj.get('expression')
+        super().from_object(obj)
+
+        self.expression = obj.get('equation').get('expression')
 
 
     def to_object(self) -> Dict:
-        obj = dict()
-
+        obj = super().to_object()
+        obj['equation'] = {
+            'expression' : self.expression
+        }
         return obj
 
     @property
@@ -42,3 +46,4 @@ class Equation(BaseText):
         if not isinstance(var, str) and var is not None:
             raise TypeError("expression must be a `str` or `None` type")
         self.__expression = var
+        self.plain_text = var
