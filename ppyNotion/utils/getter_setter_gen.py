@@ -6,8 +6,7 @@ from tqdm import tqdm
 
 VAR = \
     '''
-__id	str
-__type	PropertyType
+__checkbox	bool
 '''
 
 
