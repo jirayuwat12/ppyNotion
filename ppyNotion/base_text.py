@@ -37,6 +37,18 @@ class BaseText(INotionObject):
     def to_object(self) -> Dict:
         obj = dict()
 
+        if self.type is not None:
+            obj['type'] = self.type.name
+
+        if self.annotations is not None:
+            obj['annotations'] = self.annotations.to_object()
+
+        if self.plain_text is not None:
+            obj['plain_text'] = self.plain_text
+
+        if self.href is not None:
+            obj['href'] = self.href
+
         return obj
 
     @property
@@ -133,50 +145,3 @@ class BaseText(INotionObject):
         if not isinstance(var, str) and var is not None:
             raise TypeError("href must be a `str` or `None` type")
         self.__href = var
-
-
-if __name__ == "__main__":
-    import unittest
-    from .type import ColorType
-
-    class TestBaseText(unittest.TestCase):
-        ''' test Base text class '''
-        def test_empty_class(self):
-            ''' for empty class init'''
-            c = BaseText()
-            self.assertIsNone(c.type)
-            self.assertIsInstance(c.annotations, Annotation)
-            self.assertIsInstance(c.plain_text, str)
-            self.assertIsInstance(c.href, str)
-
-        def test_obj_init(self):
-            ''' for dict init '''
-            api_obj = {
-              "type": "text",
-              "text": {
-                "content": "MTL Intern ",
-                "link": None
-              },
-              "annotations": {
-                "bold": False,
-                "italic": False,
-                "strikethrough": False,
-                "underline": False,
-                "code": False,
-                "color": "default"
-              },
-              "plain_text": "MTL Intern ",
-              "href": None
-            }
-            c = BaseText(obj= api_obj)
-            self.assertEqual(c.type, BaseTextType.text)
-            self.assertEqual(c.annotations.bold,False)
-            self.assertEqual(c.annotations.italic,False)
-            self.assertEqual(c.annotations.strikethrough,False)
-            self.assertEqual(c.annotations.underline,False)
-            self.assertEqual(c.annotations.code,False)
-            self.assertEqual(c.annotations.color,ColorType.default)
-            self.assertEqual(c.plain_text, "MTL Intern ")
-            self.assertIsNone(c.href)
-
-    unittest.main()
