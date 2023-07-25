@@ -22,7 +22,7 @@ class Property(INotionObject):
     def to_object(self) -> Dict:
         obj = dict()
 
-        if self.id is not None:
+        if self.id is not None and len(self.id) != 0:
             obj['id'] = self.id
 
         if self.type is not None:
