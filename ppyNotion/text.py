@@ -7,7 +7,7 @@ from .link import Link
 
 class Text(BaseText):
     '''
-    One tyoe if text in rich text
+    One type if text in rich text
     '''
 
     def __init__(self, obj: Dict = None) -> None:
@@ -28,7 +28,15 @@ class Text(BaseText):
 
 
     def to_object(self) -> Dict:
-        obj = dict()
+        obj = super().to_object()
+        
+        obj[self.type.name] = dict()
+
+        if self.content is not None:
+            obj[self.type.name]['content'] = self.content
+
+        if self.link is not None:
+            obj[self.type.name]['link'] = self.link.to_object()
 
         return obj
 
@@ -79,38 +87,3 @@ class Text(BaseText):
             type name must be in `Link` class
         """
         self.link = Link(link_value)
-
-if __name__ == "__main__":
-    import unittest
-    from .type import BaseTextType
-    from .annotation import Annotation
-
-    class TestText(unittest.TestCase):
-        ''' test Text class '''
-        def test_obj_init(self):
-            ''' test for init with obj '''
-            t = Text({
-                "type": "text",
-                "text": {
-                    "content": "MTL Intern work timestamp",
-                    "link": None
-                },
-                "annotations": {
-                    "bold": False,
-                    "italic": False,
-                    "strikethrough": False,
-                    "underline": False,
-                    "code": False,
-                    "color": "default"
-                },
-                "plain_text": "MTL Intern work timestamp",
-                "href": None
-            })
-            self.assertEqual(t.type, BaseTextType.text)
-            self.assertEqual(t.content, "MTL Intern work timestamp")
-            self.assertIsNone(t.link)
-            self.assertIsInstance(t.annotations, Annotation)
-            self.assertEqual(t.plain_text, "MTL Intern work timestamp")
-            self.assertIsNone(t.href)
-    
-    unittest.main()

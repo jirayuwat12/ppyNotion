@@ -21,7 +21,7 @@ class Link(INotionObject):
 
     def to_object(self) -> Dict:
         obj = dict()
-
+        obj['url'] = self.url
         return obj
 
     @property
