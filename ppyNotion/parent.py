@@ -67,6 +67,6 @@ class Parent(INotionObject):
         """
             set value to id variable, need to be `Union[str, bool]` or `None` type
         """
-        if not isinstance(var, Union[str, bool]) and var is not None:
+        if not (isinstance(var, str) or isinstance(var, bool)) and var is not None:
             raise TypeError("id must be a `Union[str, bool]` or `None` type")
         self.__id = var
