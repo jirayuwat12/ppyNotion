@@ -2,19 +2,28 @@
 from typing import Dict, List, Optional
 from .interface.i_notion_object import INotionObject
 from .base_text import BaseText
+from .text import Text
+from .equation import Equation
+from .mention import Mention
 
 class RichText(INotionObject):
+    CLASS_NAV = {
+            'text' : Text,
+            'equation' : Equation,
+            'mention' : Mention
+    }
 
     def __init__(self, texts : List = None) -> None:
-        
+        if texts is not None:
+            self.from_object(texts)
 
-    def from_object(self, obj : Dict) -> None:
-        rich_text_value = obj.get('rich_text')
-        if isinstance(rich_text_value, List[BaseText]) or rich_text_value is None:
-            self.rich_text = rich_text_value
-        else:
-            self.set_rich_text(rich_text_value)
-
+    def from_object(self, obj : List) -> None:
+        texts = obj
+        for text in texts:
+            if isinstance(text, BaseText):
+                self.rich_text.append(text)
+            else:
+                self.rich_text.append(self.CLASS_NAV[text['type']](obj = text))
 
     def to_object(self) -> Dict:
         obj = dict()
@@ -41,10 +50,3 @@ class RichText(INotionObject):
         if not isinstance(var, List[BaseText]) and var is not None:
             raise TypeError("rich_text must be a `List[BaseText]` or `None` type")
         self.__rich_text = var
-
-    def set_rich_text(self, rich_text_value : str) -> None:
-        """
-            set type by type name,
-            type name must be in `List[BaseText]` class
-        """
-        raise NotImplementedError
