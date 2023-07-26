@@ -209,7 +209,9 @@ class User(INotionObject):
         set User email
         must in form (string1)@(string2).(string3)
         '''
-        if not re.match(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+', person_email):
+        email_regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b'
+
+        if not re.match(email_regex, person_email):
             raise ValueError('invalid email form')
         self.__person_email = person_email
 
