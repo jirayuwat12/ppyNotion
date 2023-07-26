@@ -16,7 +16,7 @@ def iso8601_to_datetime(iso: str) -> datetime:
 
 def datetime_to_iso8601(
     datetime_object: datetime,
-    offset_hour: float,
+    offset_hour: float = 0,
     add_offset: bool = False
 ) -> str:
     '''
