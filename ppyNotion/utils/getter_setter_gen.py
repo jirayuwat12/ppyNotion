@@ -6,7 +6,8 @@ from tqdm import tqdm
 
 VAR = \
     '''
-__rich_text	list[BaseText]
+__start	datetime
+__end	datetime
 '''
 
 
