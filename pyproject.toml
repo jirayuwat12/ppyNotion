@@ -1,0 +1,16 @@
+[project]
+name = "ppynotion"
+version = "0.1.0"
+description = "Connect to your Notion database with ease"
+readme = "README.md"
+requires-python = ">=3.10"
+url = "https://github.com/jirayuwat12/ppyNotion"
+dependencies = [
+    "requests>=2.32.5",
+    "tqdm>=4.67.1",
+]
+classifiers=[
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
