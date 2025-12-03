@@ -4,7 +4,9 @@ version = "0.1.0"
 description = "Connect to your Notion database with ease"
 readme = "README.md"
 requires-python = ">=3.10"
-url = "https://github.com/jirayuwat12/ppyNotion"
+authors = [
+    {name = "Jirayuwat B.", email = "jirayuwat.dev@gmail.com"}
+]
 dependencies = [
     "requests>=2.32.5",
     "tqdm>=4.67.1",
@@ -14,3 +16,8 @@ classifiers=[
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+
+[project.urls]
+Repository = "https://github.com/jirayuwat12/ppyNotion"
+Issues = "https://github.com/jirayuwat12/ppyNotion/issues"
+Changelog = "https://github.com/jirayuwat12/ppyNotion/blob/master/CHANGELOG.md"

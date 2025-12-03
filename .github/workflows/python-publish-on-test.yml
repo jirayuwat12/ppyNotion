@@ -11,7 +11,7 @@ name: Upload Python Package to Test PYPI
 on:
   push:
     paths:
-      - 'setup.py'
+      - 'pyproject.toml'
 
 permissions:
   contents: read
