@@ -13,9 +13,12 @@ dependencies = [
 ]
 classifiers=[
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+
+[tool.setuptools.packages.find]
+include = ["ppyNotion*"]
+exclude = ["test*", "class_diagram*"]
 
 [project.urls]
 Repository = "https://github.com/jirayuwat12/ppyNotion"
