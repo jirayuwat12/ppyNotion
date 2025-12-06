@@ -14,7 +14,10 @@ secret.txt
 getter_setter_gen.txt
 
 #python cache
+__pycache__/
 *.pyc
 
 # vs code
 .vscode/
+
+.env
